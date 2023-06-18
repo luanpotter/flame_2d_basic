@@ -2,35 +2,12 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
+import 'package:flame_2d_basic/components/basic_component.dart';
+import 'package:flame_2d_basic/components/box.dart';
 import 'package:flame_2d_basic/main.dart';
 import 'package:flame_2d_basic/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-class BasicComponent extends PositionComponent with HasGameRef<Flame2dGame> {
-  final Paint paint;
-  Rect? _sizeRect;
-
-  BasicComponent({
-    required super.position,
-    required super.size,
-    required this.paint,
-  });
-
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-
-    canvas.drawRect(_sizeRect ??= size.toRect(), paint);
-  }
-}
-
-class Box extends BasicComponent {
-  static final _paint = Paint()..color = Colors.blueGrey;
-
-  Box(Vector2 position, Vector2 size)
-      : super(position: position, size: size, paint: _paint);
-}
 
 class Player extends BasicComponent with KeyboardHandler {
   static const _playerSpeed = 100.0;
@@ -59,6 +36,7 @@ class Player extends BasicComponent with KeyboardHandler {
     if (gameRef.physicsMode == PhysicsMode.topDown) {
       position.x += move.x * dt * _playerSpeed;
       handleCollisionAndReset();
+
       position.y += move.y * dt * _playerSpeed;
       handleCollisionAndReset();
     } else {

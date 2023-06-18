@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flame/extensions.dart';
-import 'package:flame_2d_basic/basic_component.dart';
+import 'package:flame_2d_basic/components/box.dart';
 import 'package:flame_2d_basic/utils.dart';
 
 const _numBoxes = 30;
