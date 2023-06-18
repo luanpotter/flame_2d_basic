@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flame/camera.dart';
 import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/game.dart';
@@ -25,6 +24,7 @@ enum CameraMode {
 }
 
 class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
+  static final Paint _bg = Paint()..color = Colors.grey;
   CameraMode cameraMode = CameraMode.none;
 
   late Player player;
@@ -52,7 +52,7 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
         break;
     }
 
-    canvas.drawRect(Vector2.zero() & worldSize, Paint()..color = Colors.grey);
+    canvas.drawRect(Vector2.zero() & worldSize, _bg);
     super.render(canvas);
   }
 
@@ -72,13 +72,14 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
   void expandCamera(Canvas canvas) {
     final scale = size.clone()..divide(screenSize);
     canvas.scaleVector(scale);
-    canvas.clipRect(screenSize.toRect());
     canvas.translateVector(-cameraPosition + screenSize / 2);
   }
 
   @override
   void update(double dt) {
     super.update(dt);
+
+    // camera follow
     cameraPosition = player.position;
   }
 
