@@ -1,0 +1,24 @@
+name: flame_2d_basic
+description: A simple Flame game.
+version: 0.1.0
+
+publish_to: 'none'
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flame: 1.8.0
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flame_lint: 1.0.0
+  flame_test: 1.11.0
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: false
