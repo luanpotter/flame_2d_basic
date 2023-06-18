@@ -23,9 +23,23 @@ enum CameraMode {
   }
 }
 
+enum PhysicsMode {
+  topDown,
+  platformer;
+
+  PhysicsMode next() {
+    return PhysicsMode.values[(index + 1) % PhysicsMode.values.length];
+  }
+}
+
 class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
   static final Paint _bg = Paint()..color = Colors.grey;
+  static final Paint _cameraBorder = Paint()
+    ..color = Colors.amber
+    ..strokeWidth = 2
+    ..style = PaintingStyle.stroke;
   CameraMode cameraMode = CameraMode.none;
+  PhysicsMode physicsMode = PhysicsMode.topDown;
 
   late Player player;
   Vector2 cameraPosition = Vector2.zero();
@@ -33,9 +47,13 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
   @override
   Future<void> onLoad() async {
     await addAll(generateBoxes());
-    await add(player = Player(position: worldSize / 2));
+    await add(player = Player(position: (worldSize - tileSize) / 2));
 
     return super.onLoad();
+  }
+
+  Iterable<Box> get boxes {
+    return children.whereType<Box>();
   }
 
   @override
@@ -54,6 +72,10 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
 
     canvas.drawRect(Vector2.zero() & worldSize, _bg);
     super.render(canvas);
+    canvas.drawRect(
+      (cameraPosition - screenSize / 2) & screenSize,
+      _cameraBorder,
+    );
   }
 
   void noCamera(Canvas canvas) {
@@ -80,7 +102,7 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
     super.update(dt);
 
     // camera follow
-    cameraPosition = player.position;
+    cameraPosition = player.position + player.size / 2;
   }
 
   @override
@@ -89,8 +111,13 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
     Set<LogicalKeyboardKey> keysPressed,
   ) {
     final isDown = event is RawKeyDownEvent;
-    if (isDown && event.logicalKey == LogicalKeyboardKey.keyM) {
-      cameraMode = cameraMode.next();
+    if (isDown) {
+      if (event.logicalKey == LogicalKeyboardKey.keyM) {
+        cameraMode = cameraMode.next();
+      } else if (event.logicalKey == LogicalKeyboardKey.keyP) {
+        physicsMode = physicsMode.next();
+        player.velocity.setZero();
+      }
     }
 
     return super.onKeyEvent(event, keysPressed);

@@ -1,9 +1,16 @@
+import 'dart:math';
+
 import 'package:flame/extensions.dart';
 import 'package:flutter/services.dart';
 
-const tileSize = 16.0;
-final worldSize = Vector2.all(30) * tileSize;
-final screenSize = Vector2(9, 7) * tileSize;
+const tileLength = 16.0;
+final tileSize = Vector2.all(tileLength);
+final worldSize = Vector2.all(30) * tileLength;
+final screenSize = Vector2(16, 9) * tileLength;
+
+Vector2 minVector2(Vector2 a, Vector2 b) {
+  return Vector2(min(a.x, b.x), min(a.y, b.y));
+}
 
 void readArrowLikeKeysIntoVector2(
   RawKeyEvent event,

@@ -10,15 +10,15 @@ final _r = Random();
 List<Box> generateBoxes() {
   return [
     // walls
-    Box(Vector2(0, 0), Vector2(worldSize.x, tileSize)),
-    Box(Vector2(0, 0), Vector2(tileSize, worldSize.y)),
-    Box(Vector2(0, worldSize.y - tileSize), Vector2(worldSize.x, tileSize)),
-    Box(Vector2(worldSize.x - tileSize, 0), Vector2(tileSize, worldSize.y)),
+    Box(Vector2(0, 0), Vector2(worldSize.x, tileLength)),
+    Box(Vector2(0, 0), Vector2(tileLength, worldSize.y)),
+    Box(Vector2(0, worldSize.y - tileLength), Vector2(worldSize.x, tileLength)),
+    Box(Vector2(worldSize.x - tileLength, 0), Vector2(tileLength, worldSize.y)),
 
     // central platform
     Box(
-      Vector2((worldSize.x - 3 * tileSize) / 2, worldSize.y / 2 + tileSize),
-      Vector2(3 * tileSize, tileSize),
+      Vector2((worldSize.x - 3 * tileLength) / 2, worldSize.y / 2 + tileLength),
+      Vector2(3 * tileLength, tileLength),
     ),
 
     ..._randomBoxes(worldSize),
@@ -36,10 +36,10 @@ List<Box> _randomBoxes(Vector2 gameSize) {
     final size = Vector2(xDimension.toDouble(), yDimension.toDouble());
     final potentialBox = Box(
       Vector2(
-        _r.nextInt(worldSize.x ~/ tileSize).toDouble() * tileSize,
-        _r.nextInt(worldSize.y ~/ tileSize).toDouble() * tileSize,
+        _r.nextInt(worldSize.x ~/ tileLength).toDouble() * tileLength,
+        _r.nextInt(worldSize.y ~/ tileLength).toDouble() * tileLength,
       ),
-      size * tileSize,
+      size * tileLength,
     );
     if (boxes.any((box) => _overlaps(box, potentialBox))) {
       continue;
