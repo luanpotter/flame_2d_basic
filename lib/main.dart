@@ -59,6 +59,9 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
 
   @override
   void render(Canvas canvas) {
+    // NOTE: these transformations are equivalent to different configurations
+    // of the built-in CameraComponent:
+    // https://docs.flame-engine.org/latest/flame/camera_component.html
     switch (cameraMode) {
       case CameraMode.none:
         noCamera(canvas);
@@ -82,6 +85,11 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
   void noCamera(Canvas canvas) {
     final scale = size.clone()..divide(worldSize);
     canvas.scaleVector(scale);
+
+    // equivalent matrix4 transform
+    // canvas.transform(
+    //   (Matrix4.identity()..scale(scale.x, scale.y, 1)).storage,
+    // );
   }
 
   void fixedAspectCamera(Canvas canvas) {
@@ -89,13 +97,29 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
     canvas.scale(scale);
     canvas.translateVector((size / scale - screenSize) / 2);
     canvas.clipRect(screenSize.toRect());
+
     canvas.translateVector(-cameraPosition + screenSize / 2);
+
+    // equivalent matrix4 transform
+    // canvas.transform(
+    //   (Matrix4.identity()..translate2(-cameraPosition + screenSize / 2))
+    //       .storage,
+    // );
   }
 
   void expandCamera(Canvas canvas) {
     final scale = size.clone()..divide(screenSize);
+
     canvas.scaleVector(scale);
     canvas.translateVector(-cameraPosition + screenSize / 2);
+
+    // equivalent matrix4 transform
+    // canvas.transform(
+    //   (Matrix4.identity()
+    //         ..scale(scale.x, scale.y, 1)
+    //         ..translate2(-cameraPosition + screenSize / 2))
+    //       .storage,
+    // );
   }
 
   @override
