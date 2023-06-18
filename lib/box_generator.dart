@@ -1,27 +1,27 @@
 import 'dart:math';
 
 import 'package:flame/extensions.dart';
-import 'package:flame_2d_basic/box.dart';
+import 'package:flame_2d_basic/basic_component.dart';
 import 'package:flame_2d_basic/utils.dart';
 
 const _numBoxes = 30;
 final _r = Random();
 
-List<Box> generateBoxes(Vector2 gameSize) {
+List<Box> generateBoxes() {
   return [
     // walls
-    Box(Vector2(0, 0), Vector2(gameSize.x, tileSize)),
-    Box(Vector2(0, 0), Vector2(tileSize, gameSize.y)),
-    Box(Vector2(0, gameSize.y - tileSize), Vector2(gameSize.x, tileSize)),
-    Box(Vector2(gameSize.x - tileSize, 0), Vector2(tileSize, gameSize.y)),
+    Box(Vector2(0, 0), Vector2(worldSize.x, tileSize)),
+    Box(Vector2(0, 0), Vector2(tileSize, worldSize.y)),
+    Box(Vector2(0, worldSize.y - tileSize), Vector2(worldSize.x, tileSize)),
+    Box(Vector2(worldSize.x - tileSize, 0), Vector2(tileSize, worldSize.y)),
 
     // central platform
     Box(
-      Vector2((fixedSize.x - 3 * tileSize) / 2, fixedSize.y / 2 + tileSize),
+      Vector2((worldSize.x - 3 * tileSize) / 2, worldSize.y / 2 + tileSize),
       Vector2(3 * tileSize, tileSize),
     ),
 
-    ..._randomBoxes(gameSize),
+    ..._randomBoxes(worldSize),
   ];
 }
 
@@ -36,8 +36,8 @@ List<Box> _randomBoxes(Vector2 gameSize) {
     final size = Vector2(xDimension.toDouble(), yDimension.toDouble());
     final potentialBox = Box(
       Vector2(
-        _r.nextInt(fixedSize.x ~/ tileSize).toDouble() * tileSize,
-        _r.nextInt(fixedSize.y ~/ tileSize).toDouble() * tileSize,
+        _r.nextInt(worldSize.x ~/ tileSize).toDouble() * tileSize,
+        _r.nextInt(worldSize.y ~/ tileSize).toDouble() * tileSize,
       ),
       size * tileSize,
     );

@@ -2,7 +2,8 @@ import 'package:flame/extensions.dart';
 import 'package:flutter/services.dart';
 
 const tileSize = 16.0;
-final fixedSize = Vector2.all(tileSize * 30);
+final worldSize = Vector2.all(30) * tileSize;
+final screenSize = Vector2(9, 7) * tileSize;
 
 void readArrowLikeKeysIntoVector2(
   RawKeyEvent event,

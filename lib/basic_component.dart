@@ -1,10 +1,37 @@
 import 'dart:ui';
 
 import 'package:flame/components.dart';
+import 'package:flame/extensions.dart';
+import 'package:flame_2d_basic/main.dart';
 import 'package:flame_2d_basic/utils.dart';
 import 'package:flutter/services.dart';
 
-class Player extends PositionComponent with KeyboardHandler {
+class BasicComponent extends PositionComponent with HasGameRef<Flame2dGame> {
+  final Paint paint;
+  Rect? _sizeRect;
+
+  BasicComponent({
+    required super.position,
+    required super.size,
+    required this.paint,
+  });
+
+  @override
+  void render(Canvas canvas) {
+    super.render(canvas);
+
+    canvas.drawRect(_sizeRect ??= size.toRect(), paint);
+  }
+}
+
+class Box extends BasicComponent {
+  static final _paint = Paint()..color = const Color(0xFF0000FF);
+
+  Box(Vector2 position, Vector2 size)
+      : super(position: position, size: size, paint: _paint);
+}
+
+class Player extends BasicComponent with KeyboardHandler {
   static const _playerSpeed = 100.0;
   static final _paint = Paint()..color = const Color(0xFFFF00FF);
 
@@ -13,13 +40,9 @@ class Player extends PositionComponent with KeyboardHandler {
   Player({required super.position})
       : super(
           size: Vector2.all(tileSize),
-          anchor: Anchor.center,
-        );
-
-  @override
-  void render(Canvas canvas) {
-    super.render(canvas);
-    canvas.drawRect(size.toRect(), _paint);
+          paint: _paint,
+        ) {
+    anchor = Anchor.center;
   }
 
   @override
