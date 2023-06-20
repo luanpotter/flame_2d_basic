@@ -12,6 +12,12 @@ Vector2 minVector2(Vector2 a, Vector2 b) {
   return Vector2(min(a.x, b.x), min(a.y, b.y));
 }
 
+extension Next<T> on List<T> {
+  T next(int index) {
+    return this[(index + 1) % length];
+  }
+}
+
 void readArrowLikeKeysIntoVector2(
   RawKeyEvent event,
   Set<LogicalKeyboardKey> keysPressed,

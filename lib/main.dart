@@ -21,18 +21,14 @@ enum CameraMode {
   fixedAspect,
   expand;
 
-  CameraMode next() {
-    return CameraMode.values[(index + 1) % CameraMode.values.length];
-  }
+  CameraMode next() => CameraMode.values.next(index);
 }
 
 enum PhysicsMode {
   topDown,
   platformer;
 
-  PhysicsMode next() {
-    return PhysicsMode.values[(index + 1) % PhysicsMode.values.length];
-  }
+  PhysicsMode next() => PhysicsMode.values.next(index);
 }
 
 class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
