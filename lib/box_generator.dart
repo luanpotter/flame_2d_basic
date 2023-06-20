@@ -41,6 +41,9 @@ List<Box> _randomBoxes(Vector2 gameSize) {
       ),
       size * tileLength,
     );
+    if (_isOutside(potentialBox, gameSize)) {
+      continue;
+    }
     if (boxes.any((box) => _overlaps(box, potentialBox))) {
       continue;
     }
@@ -49,6 +52,14 @@ List<Box> _randomBoxes(Vector2 gameSize) {
   return boxes;
 }
 
-bool _overlaps(Box box, Box potentialBox) {
-  return false;
+bool _isOutside(Box box, Vector2 gameSize) {
+  final r = box.toRect();
+  final world = gameSize.toRect();
+  return world.expandToInclude(r) != world;
+}
+
+bool _overlaps(Box b1, Box b2) {
+  final r1 = b1.toRect().inflate(tileLength);
+  final r2 = b2.toRect().inflate(tileLength);
+  return r1.overlaps(r2);
 }
