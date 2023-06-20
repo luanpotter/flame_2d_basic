@@ -16,6 +16,8 @@ void main() {
 
 enum CameraMode {
   none,
+  justScale,
+  justTranslate,
   fixedAspect,
   expand;
 
@@ -64,7 +66,12 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
     // https://docs.flame-engine.org/latest/flame/camera_component.html
     switch (cameraMode) {
       case CameraMode.none:
-        noCamera(canvas);
+        break;
+      case CameraMode.justScale:
+        justScale(canvas);
+        break;
+      case CameraMode.justTranslate:
+        justTranslate(canvas);
         break;
       case CameraMode.fixedAspect:
         fixedAspectCamera(canvas);
@@ -82,13 +89,23 @@ class Flame2dGame extends FlameGame with HasKeyboardHandlerComponents {
     );
   }
 
-  void noCamera(Canvas canvas) {
+  void justScale(Canvas canvas) {
     final scale = size.clone()..divide(worldSize);
     canvas.scaleVector(scale);
 
     // equivalent matrix4 transform
     // canvas.transform(
     //   (Matrix4.identity()..scale(scale.x, scale.y, 1)).storage,
+    // );
+  }
+
+  void justTranslate(Canvas canvas) {
+    canvas.translateVector(-cameraPosition + screenSize / 2);
+
+    // equivalent matrix4 transform
+    // canvas.transform(
+    //   (Matrix4.identity()..translate2(-cameraPosition + screenSize / 2))
+    //       .storage,
     // );
   }
 
