@@ -1,5 +1,5 @@
 name: flame_2d_basic
-description: A simple Flame game.
+description: Simple example project showcasing the basics of 2d transformations.
 version: 0.1.0
 
 publish_to: 'none'
